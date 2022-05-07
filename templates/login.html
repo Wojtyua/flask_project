@@ -25,15 +25,10 @@
     <div class="container">
     <h1>Login page</h1>
     <form action="/login"  method="post">
-      <label for="email">E-mail</label><br/>
-      <input type="string" id="email"/><br/>
-      <label for="fname">First name</label><br/>
-      <input type="string" id="fname"/><br/>
-      <label for="lname">Last name</label><br/>
-      <input type="string" id="lname"/><br/>
-      <label for="password">Password</label><br/>
-      <input type="string" id="password"/>
-    
+      {{ form.hidden_tag() }} 
+      {{ form.email }}
+      {{ form.password }} 
+      {{ form.submit }}
     </form>
     <a href="{{url_for('register')}}">Nie masz kontra? Zarejestruj</a>
   </body>
