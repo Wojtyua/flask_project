@@ -8,6 +8,11 @@
   </head>
   <body>
     <h1>Login page</h1>
+    <form method="POST" action="">
+      {{ form.hidden_tag() }} {{ form.email }} {{ form.password }} {{
+      form.submit }}
+    </form>
+
     <a href="{{url_for('register')}}">Nie masz kontra? Zarejestruj</a>
   </body>
 </html>
