@@ -4,11 +4,32 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block styles %}
+  
+    <link rel="stylesheet" href="{{url_for('.static', filename='styles/home.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap" rel="stylesheet">
+    {% endblock %}
+  
+
     <title>Home</title>
   </head>
   <body>
-    <h1>Login with flask</h1>
-    <a href="{{url_for('login')}}">Login page</a><br />
-    <a href="{{url_for('register')}}">Register page</a><br />
+    <div class="menu">
+      <ul>
+        <li><a href="{{url_for('home')}}">Home</a></li>
+        <li><a href="{{url_for('login')}}">Log in</a></li>
+        <li><a href="{{url_for('register')}}">Register</a></li>
+      </ul> 
+    </div>
+    <div class="container">
+
+        <h1>TOP 3 USERS</h1>
+
+        <p>XD</p>
+
+    </div>>
   </body>
 </html>

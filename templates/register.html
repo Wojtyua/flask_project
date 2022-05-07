@@ -4,10 +4,37 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block styles %}
+  
+    <link rel="stylesheet" href="{{url_for('.static', filename='styles/register.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap" rel="stylesheet">
+    {% endblock %}
     <title>Register</title>
   </head>
   <body>
+    <div class="menu">
+      <ul>
+        <li><a href="{{url_for('home')}}">Home</a></li>
+        <li><a href="{{url_for('login')}}">Log in</a></li>
+        <li><a href="{{url_for('register')}}">Register</a></li>
+      </ul> 
+    </div>
+    <div class="container">
     <h1>Register page</h1>
+    <form action="/register"  method="post">
+      <label for="email">E-mail</label><br/>
+      <input type="string" id="email"/><br/>
+      <label for="fname">First name</label><br/>
+      <input type="string" id="fname"/><br/>
+      <label for="lname">Last name</label><br/>
+      <input type="string" id="lname"/><br/>
+      <label for="password">Password</label><br/>
+      <input type="string" id="password"/>
+    
+    </form>
     <a href="{{url_for('login')}}">Masz juz konto? Zaloguj</a>
   </body>
 </html>
