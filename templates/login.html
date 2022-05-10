@@ -1,35 +1,14 @@
-<!DOCTYPE html>
-<html lang="pl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% block styles %}
-  
-    <link rel="stylesheet" href="{{url_for('.static', filename='styles/login.css')}}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap" rel="stylesheet">
-    {% endblock %}
-    <title>Login</title>
-  </head>
-  <body>
-    <div class="menu">
-      <ul>
-        <li><a href="{{url_for('home')}}">Home</a></li>
-        <li><a href="{{url_for('login')}}">Log in</a></li>
-        <li><a href="{{url_for('register')}}">Register</a></li>
-      </ul> 
-    </div>
-    <div class="container">
-    <h1>Login page</h1>
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<h1>Login page</h1>
+    <center>
     <form action="/login"  method="post">
       {{ form.hidden_tag() }} 
       {{ form.email }}
       {{ form.password }} 
       {{ form.submit }}
     </form>
+    </center>
     <a href="{{url_for('register')}}">Nie masz kontra? Zarejestruj</a>
-  </body>
-</html>
+{% endblock %}

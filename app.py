@@ -1,4 +1,3 @@
-from email.policy import default
 from flask import Flask, render_template, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
@@ -57,7 +56,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
-@app.route('/')
+@app.route('/home', methods=['GET', 'POST'])
 def home():
     return render_template('home.html')
 
@@ -70,26 +69,30 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
+                #incrementing login count in database
                 user.login_count = User.login_count + 1
-                db.session.commit()              
+                db.session.commit()
+                              
                 login_user(user)
 
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('home'))
 
     return render_template('login.html', form=form)
 
-
-@app.route('/dashboard', methods=['GET', 'POST'])
-@login_required
-def dashboard():
-    return render_template('dashboard.html')
 
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
+
+
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    logout_user()
+    return redirect(url_for('home'))
 
 
 @ app.route('/register', methods=['GET', 'POST'])
