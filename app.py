@@ -108,6 +108,12 @@ def register():
 
     return render_template('register.html', form=form)
 
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    all_users = User.query.all()
+    return render_template('admin.html', users = all_users)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
