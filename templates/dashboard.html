@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-  </head>
-  <body>
-    <h1>you are logged in as "{{current_user.name}}"</h1>
-    <p>login count: {{current_user.login_count}}</p>
-  </body>
-</html>
+{% extends "base.html" %}
+{% block title %}Dashbord{% endblock %}
+{% block content %}
+
+<h1>you are logged in</h1>
+
+
+{% endblock %}
