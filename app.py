@@ -95,6 +95,7 @@ def profile():
     return redirect(url_for('home'))
 
 
+
 @ app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -108,11 +109,18 @@ def register():
 
     return render_template('register.html', form=form)
 
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     all_users = User.query.all()
     return render_template('admin.html', users = all_users)
 
+
+@app.route('/top_users', methods=['GET', 'POST'])
+def topUsers():
+    #return all users by login count 
+    top_users = db.session.query(User).order_by(User.login_count.desc()).limit(3)
+    return render_template('top_users.html', users = top_users)
 
 
 if __name__ == "__main__":
