@@ -20,7 +20,7 @@ body {
 h1 {
   padding: 20px;
 }
-form{
+form {
   width: 100%;
 }
 input {
@@ -36,4 +36,9 @@ input {
   width: 100%;
   height: fit-content;
   margin-bottom: 20px;
+}
+
+.toast-header {
+  background-color: #0d6efd !important;
+  color: white !important;
 }
