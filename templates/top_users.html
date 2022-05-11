@@ -11,9 +11,9 @@
       <th scope="col">Login count</th>
     </tr>
   </thead>
+  
   <tbody>
     {% for user in users %}
-
     <tr>
       <th scope="row">{{user.id}}</th>
       <td>{{ user.name }}</td>
@@ -21,7 +21,6 @@
       <td>{{ user.email }}</td>
       <td>{{ user.login_count }}</td>
     </tr>
-
     {% endfor %}
   </tbody>
 </table>

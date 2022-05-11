@@ -12,8 +12,9 @@
       <th scope="col">Narzędzia</th>
     </tr>
   </thead>
-  {% for user in users %}
+  
   <tbody>
+    {% for user in users %}
     <tr>
       <th scope="row">{{ user.id }}</td>
       <td>{{ user.name }}</td>
@@ -23,8 +24,9 @@
       <td><a href="/admin/{{user.id}}/update" type="button" class="btn btn-warning">Edit</a></td>
       <td><a href="/admin/{{user.id}}/delete" type="button" class="btn btn-danger">Delete</a></td>
     </tr>
+    {% endfor %}
   </tbody>
-  {% endfor %}
+  
 </table>
 
 {% endblock %}

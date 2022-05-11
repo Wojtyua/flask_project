@@ -99,7 +99,7 @@ def logout():
 @login_required
 def profile():
     user = current_user
-    return redirect(url_for('home'))
+    return render_template('profile.html')
 '''
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
