@@ -2,9 +2,11 @@
 %}
 <h1>Login page</h1>
 <center>
-  <form action="/login" method="post" style="margin-bottom: 20px">
-    {{ form.hidden_tag() }} {{ form.email }} {{ form.password }} {{ form.submit
-    }}
+  <form action="/login" method="post">
+    {{ form.hidden_tag() }} 
+    {{ form.email }} 
+    {{ form.password }} 
+    {{ form.submit}}
   </form>
 </center>
 <a href="{{url_for('register')}}">Nie masz kontra? Zarejestruj</a>

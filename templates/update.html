@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block title %}profile{% endblock %} 
+{% block content %}
+<h1>Update user</h1>
+    <center>
+  <form action="/admin/{{ user.id }}/update" method="POST">
+    {{ form.hidden_tag() }} 
+    {{ form.email.label(class="form-label")}}
+    {{ form.email(value=user.email) }}
+    {{ form.email.label(class="form-label")}}
+    {{ form.name(value=user.name) }}
+  
+    {{ form.last_name(value=user.last_name) }}
+
+    {{ form.password(value=user.password) }} 
+
+    {{ form.submit }}
+  </form>
+    </center>
+  </div>
+
+{% endblock %}

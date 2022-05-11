@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, flash, abort
+from flask import Flask, render_template, url_for, redirect, flash, abort, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
@@ -41,13 +41,19 @@ class RegisterForm(FlaskForm):
 
     submit = SubmitField("Register")
 
+class UserForm(FlaskForm):
+    email = StringField(validators=[InputRequired(), Length(min = 4, max=30)], render_kw={"placeholder": "Email"})
+    name = StringField(validators=[InputRequired(), Length(min = 4, max=20)], render_kw={"placeholder": "Imie"})
+    last_name = StringField(validators=[InputRequired(), Length(min = 4, max=20)], render_kw={"placeholder": "Nazwisko"})
+    password = PasswordField(validators=[Length(min = 4, max=20)], render_kw={"placeholder": "Hasło"})
+
+    submit = SubmitField("Update")
+
     def validate_email(self, email):
         existing_user_email = User.query.filter_by(
             email = email.data).first()
         if existing_user_email:
             raise ValidationError("Email zajety")
-
-
 
 class LoginForm(FlaskForm):
     email = StringField(validators=[InputRequired(), Length(min = 4, max=30)], render_kw={"placeholder": "Email"})
@@ -94,8 +100,26 @@ def logout():
 def profile():
     user = current_user
     return redirect(url_for('home'))
-
-
+'''
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    form = UserForm()
+    name_to_update = User.query.get_or_404(id)
+    if request.method == "POST":
+        name_to_update.email = request.form['email']
+        name_to_update.name = request.form['name']
+        name_to_update.last_name = request.form['last_name']
+        name_to_update.password = request.form['password']
+        try:
+            db.session.commit()
+            flash("User updated successfully!")
+            return redirect('/admin')
+        except:
+            flash("Error! Try again.")
+            return render_template("update.html", form=form, name_to_update = name_to_update)
+    else:
+         return render_template("update.html", form=form, name_to_update = name_to_update)
+'''
 
 @ app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -120,6 +144,29 @@ def admin():
     else:
         return redirect(url_for('home'))
 
+@app.route('/admin/<int:id>/update', methods=['GET', 'POST'])
+@login_required
+def adminUpdate(id):
+    if(current_user.isAdmin == True):
+        user = User.query.filter_by(id=id).first()
+        form = UserForm()
+
+        if request.method == "POST":
+            user.email = request.form['email']
+            user.name = request.form['name']
+            user.last_name = request.form['last_name']
+            if(len(request.form['password']) != 0):
+                hashed_password = bcrypt.generate_password_hash(request.form['password'])
+                user.password = hashed_password
+                
+            try:
+                db.session.commit()
+                return redirect('/admin')
+            except:
+                return render_template("update.html", form=form, user = user)
+        else:
+            return render_template("update.html", form=form, user = user)
+
 
 @app.route('/admin/<int:id>/delete', methods = ['GET','POST'])
 @login_required
@@ -132,7 +179,6 @@ def delete(id):
             return redirect('/admin')
         else:
             abort(404)
-
 
 @app.route('/top_users', methods=['GET', 'POST'])
 def topUsers():
