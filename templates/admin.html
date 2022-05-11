@@ -1,28 +1,30 @@
-{% extends "base.html" %}
-{% block title %}Admin{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Admin{% endblock %} {% block content
+%}
 
-<table border="1">
+<table class="table">
+  <thead>
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>E-mail</th>
-        <th>Login count</th>
-        <th colspan="2">Narzędzia</th>
-      </tr>
-    {% for user in users %}
-    
-    <tr>
-    <td>{{ user.id }}</td>
-    <td>{{ user.name }}</td>
-    <td>{{ user.last_name }}</td>
-    <td>{{ user.email }}</td>
-    <td>{{ user.login_count }}</td>
-    <td>Edytuj</td>
-    <td>Usuń</td>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Surname</th>
+      <th scope="col">E-mail</th>
+      <th scope="col">Login count</th>
+      <th scope="col">Narzędzia</th>
     </tr>
-    {% endfor %}
+  </thead>
+  {% for user in users %}
+  <tbody>
+    <tr>
+      <th scope="row">{{ user.id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.last_name }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.login_count }}</td>
+      <td>Edytuj</td>
+      <td>Usuń</td>
+    </tr>
+  </tbody>
+  {% endfor %}
 </table>
 
 {% endblock %}

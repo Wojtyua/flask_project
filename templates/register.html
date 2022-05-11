@@ -1,19 +1,14 @@
-{% extends "base.html" %}
-{% block title %}Sign up{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Sign up{% endblock %} {% block
+content %}
 
 <h1>Sign up</h1>
-      <center>
-    <form method="POST" action="">
-      {{ form.hidden_tag() }} 
-      {{ form.email }} 
-      {{ form.name }} 
-      {{ form.last_name}} 
-      {{ form.password }} 
-      {{ form.submit }}
-    </form>
-    </center>
+<center>
+  <form method="POST" action="" style="margin-bottom: 20px">
+    {{ form.hidden_tag() }} {{ form.email }} {{ form.name }} {{ form.last_name}}
+    {{ form.password }} {{ form.submit }}
+  </form>
+</center>
 
-    <a href="{{url_for('login')}}">Masz juz konto? Zaloguj</a>
+<a href="{{url_for('login')}}">Masz juz konto? Zaloguj</a>
 
 {% endblock %}

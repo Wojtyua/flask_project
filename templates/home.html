@@ -1,29 +1,69 @@
-{% extends "base.html" %}
-{% block title %}Home{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
 <h1>TOP 3 USERS</h1>
-<div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
+<div class="card" style="width: 18rem">
+  <img src="..." class="card-img-top" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">
+      Some quick example text to build on the card title and make up the bulk of
+      the card's content.
+    </p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
   </div>
-  <div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
+</div>
+<div class="card" style="width: 18rem">
+  <img src="..." class="card-img-top" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">
+      Some quick example text to build on the card title and make up the bulk of
+      the card's content.
+    </p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
   </div>
-  <div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
+</div>
+<div class="card" style="width: 18rem">
+  <img src="..." class="card-img-top" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">
+      Some quick example text to build on the card title and make up the bulk of
+      the card's content.
+    </p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
   </div>
-{% endblock %}
+</div>
+
+{% with messages = get_flashed_messages() %} {% if messages %}{% for message in
+messages %}
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div
+    id="liveToast"
+    class="toast"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="toast-header">
+      <strong class="me-auto">Alert</strong>
+      <small>just now</small>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="toast-body">{{message}}</div>
+  </div>
+</div>
+{% endfor %}
+<script>
+  window.onload = (event) => {
+    let myAlert = document.querySelector(".toast");
+    let bsAlert = new bootstrap.Toast(myAlert);
+    bsAlert.show();
+  };
+</script>
+{% endif %} {% endwith %} {% endblock %}

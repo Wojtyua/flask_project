@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
@@ -74,7 +74,7 @@ def login():
                 db.session.commit()
                               
                 login_user(user)
-
+                flash(f"You have been logged in as {current_user.name}")
                 return redirect(url_for('home'))
 
     return render_template('login.html', form=form)
@@ -85,6 +85,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash("You have been logged out")
     return redirect(url_for('home'))
 
 
