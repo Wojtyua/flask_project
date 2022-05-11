@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, flash
+from flask import Flask, render_template, url_for, redirect, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
@@ -92,7 +92,7 @@ def logout():
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    logout_user()
+    user = current_user
     return redirect(url_for('home'))
 
 
@@ -112,9 +112,26 @@ def register():
 
 
 @app.route('/admin', methods=['GET', 'POST'])
+@login_required
 def admin():
-    all_users = User.query.all()
-    return render_template('admin.html', users = all_users)
+    if(current_user.isAdmin == True):
+        all_users = User.query.all()
+        return render_template('admin.html', users = all_users)
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/admin/<int:id>/delete', methods = ['GET','POST'])
+@login_required
+def delete(id):
+    if(current_user.isAdmin == True):
+        user = User.query.filter_by(id=id).first()
+        if user: 
+            db.session.delete(user)
+            db.session.commit()
+            return redirect('/admin')
+        else:
+            abort(404)
 
 
 @app.route('/top_users', methods=['GET', 'POST'])

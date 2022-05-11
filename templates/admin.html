@@ -20,8 +20,8 @@
       <td>{{ user.last_name }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.login_count }}</td>
-      <td>Edytuj</td>
-      <td>Usuń</td>
+      <td><a href="" type="button" class="btn btn-warning">Edit</a></td>
+      <td><a href="/admin/{{user.id}}/delete" type="button" class="btn btn-danger">Delete</a></td>
     </tr>
   </tbody>
   {% endfor %}
