@@ -8,7 +8,9 @@
     <p class="card-text"><b>Last Name:</b> {{ current_user.last_name }}</p>
     <p class="card-text"><b>Email:</b> {{ current_user.email }}</p>
     <p class="card-text"><b>Login count:</b> {{ current_user.login_count }}</p>
-    <a href="{{url_for('logout')}}" class="btn btn-secondary btn-sm">Logout</a>
+    <a href="logout" class="btn btn-secondary btn-sm">Logout</a>
+    <a href="profile/update/{{current_user.id}}" class="btn btn-secondary btn-sm">Edit profile</a>
+    <a href="profile/delete/{{current_user.id}}" class="btn btn btn-danger btn-sm">Delete</a>
   </div>
 </div>
 {% endblock %}

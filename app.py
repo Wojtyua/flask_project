@@ -100,26 +100,43 @@ def logout():
 def profile():
     user = current_user
     return render_template('profile.html')
-'''
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
-def update(id):
+
+@app.route('/profile/update/<int:id>', methods=['GET', 'POST'])
+@login_required
+def profileupdate(id):
+
+    user = User.query.filter_by(id=id).first() 
+    if current_user.id != user.id:
+        return redirect("/home")
+
     form = UserForm()
-    name_to_update = User.query.get_or_404(id)
     if request.method == "POST":
-        name_to_update.email = request.form['email']
-        name_to_update.name = request.form['name']
-        name_to_update.last_name = request.form['last_name']
-        name_to_update.password = request.form['password']
+        user.email = request.form['email']
+        user.name = request.form['name']
+        user.last_name = request.form['last_name']
+        if(len(request.form['password']) != 0):
+            hashed_password = bcrypt.generate_password_hash(request.form['password'])
+            user.password = hashed_password  
         try:
             db.session.commit()
-            flash("User updated successfully!")
-            return redirect('/admin')
+            return redirect('/profile')
         except:
-            flash("Error! Try again.")
-            return render_template("update.html", form=form, name_to_update = name_to_update)
+            return render_template("update.html", form=form, user = user)
     else:
-         return render_template("update.html", form=form, name_to_update = name_to_update)
-'''
+        return render_template("update.html", form=form, user = user)
+
+@app.route('/profile/delete/<int:id>', methods = ['GET','POST'])
+@login_required
+def profiledelete(id):
+    user = User.query.filter_by(id=id).first() 
+    if current_user.id != user.id:
+        return redirect("/home")
+    if user: 
+        db.session.delete(user)
+        db.session.commit()
+        return redirect('/home')
+    else:
+        abort(404)
 
 @ app.route('/register', methods=['GET', 'POST'])
 def register():
