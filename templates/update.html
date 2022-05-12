@@ -1,21 +1,22 @@
-{% extends "base.html" %} {% block title %}update{% endblock %} 
+{% extends "base.html" %} {% block title %}profile{% endblock %} 
 {% block content %}
 <h1>Update user</h1>
-    <center>
+    
   <form action="/admin/{{ user.id }}/update" method="POST">
-    {{ form.hidden_tag() }} 
-    {{ form.email.label(class="form-label")}}
+    <center>
+    {{ form.hidden_tag() }}
+    <h5>{{ form.email.label(class="form-label")}}</h5> 
     {{ form.email(value=user.email) }}
-    {{ form.email.label(class="form-label")}}
+    <h5>{{ form.name.label(class="form-label")}}</h5> 
     {{ form.name(value=user.name) }}
-  
+    <h5>{{ form.last_name.label(class="form-label")}}</h5> 
     {{ form.last_name(value=user.last_name) }}
-
+    <h5>{{ form.password.label(class="form-label")}}</h5> 
     {{ form.password(value=user.password) }} 
-
     {{ form.submit }}
+  </center>
   </form>
-    </center>
+    
   </div>
 
 {% endblock %}

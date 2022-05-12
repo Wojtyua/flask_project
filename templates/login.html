@@ -1,13 +1,15 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
 %}
 <h1>Login page</h1>
-<center>
+
   <form action="/login" method="post">
+    <center>
     {{ form.hidden_tag() }} 
     {{ form.email }} 
     {{ form.password }} 
     {{ form.submit}}
+  </center>
   </form>
-</center>
+
 <a href="{{url_for('register')}}">Nie masz kontra? Zarejestruj</a>
 {% endblock %}

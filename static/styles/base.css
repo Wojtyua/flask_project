@@ -3,7 +3,9 @@ body {
   background-color: dimgrey;
   font-family: "Roboto", sans-serif;
 }
-
+a{
+  text-decoration: none;
+}
 .container {
   margin-top: 30px;
   padding-top: 50px;
@@ -14,8 +16,19 @@ body {
 h1 {
   padding: 20px;
 }
+form {
+  width: 70%;
+}
 input {
   width: 70%;
+  padding: 12px 20px;
+  margin-bottom: 10px !important;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+input [type="submit"]{
+  width: 20px !important;
   padding: 12px 20px;
   margin-bottom: 10px !important;
   border: 1px solid #ccc;
@@ -31,5 +44,8 @@ input {
 
 .toast-header {
   background-color: #0d6efd !important;
+  color: white !important;
+}
+.nav-link:hover{
   color: white !important;
 }
