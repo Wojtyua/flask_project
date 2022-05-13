@@ -1,16 +1,27 @@
+from email.policy import default
 from flask import Flask, render_template, url_for, redirect, flash, abort, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+from wtforms.widgets import TextArea
+from werkzeug.utils import secure_filename
+import uuid as uuid
+import os
+import datetime
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = 'thisisasecretkey'
+
+#Setting folder for uploaded images
+UPLOAD_FOLDER = 'static/images/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 login_manager = LoginManager()
@@ -31,6 +42,16 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(80), nullable=False)
     login_count = db.Column(db.Integer, nullable=False, default=0)
     isAdmin = db.Column(db.Boolean(), nullable=False, default=False)
+
+class Posts(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(20), nullable=False)
+    author = db.Column(db.String(30), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    category = db.Column(db.String(80), nullable=False)
+    image = db.Column(db.String(), nullable=False)
+    date_posted = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+
 
 
 class RegisterForm(FlaskForm):
@@ -61,10 +82,24 @@ class LoginForm(FlaskForm):
 
     submit = SubmitField("Login")
 
+class PostForm(FlaskForm):
+
+    title = StringField(validators=[InputRequired(), Length(min = 4, max=20)], render_kw={"placeholder": "Title"})
+    author = StringField(validators=[InputRequired(), Length(min = 4, max=20)], render_kw={"placeholder": "Author"})
+    content = StringField(validators=[InputRequired()], widget=TextArea(), render_kw={"placeholder": "Content"})
+    category = StringField(validators=[InputRequired(), Length(min = 4, max=20)], render_kw={"placeholder": "Category"})
+    image = FileField('post_image')
+
+
+
+
+    submit = SubmitField("Register")
+
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html')
+    all_posts = Posts.query.all()
+    return render_template('home.html', posts=all_posts)
 
 
 
@@ -94,6 +129,42 @@ def logout():
     flash("You have been logged out")
     return redirect(url_for('home'))
 
+
+@app.route('/add_post', methods=['GET', 'POST'])
+@login_required
+def add_post():
+    form = PostForm()
+
+    if form.validate_on_submit():
+    
+        image = form.image.data
+        
+
+
+        image_filename = secure_filename(image.filename)
+        image_name = str(uuid.uuid1()) + "_" + image_filename 
+
+        #saving img to UPLOAD_FOLDER
+
+        saver = form.image.data
+   
+        #change to string to save to db
+        image = image_name
+
+        post = Posts(title = form.title.data, author = form.author.data, content = form.content.data, category = form.category.data, image = image)
+
+        db.session.add(post)
+        db.session.commit()
+        saver.save(os.path.join(app.config['UPLOAD_FOLDER'], image_name))
+
+        form.title.data = '' 
+        form.author.data = ''
+        form.content.data = ''
+        form.category.data = ''
+        form.image.data = ''
+
+        
+    return render_template('add_post.html', form = form)
 
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required

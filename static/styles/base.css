@@ -13,8 +13,9 @@ a{
   place-items: center;
 }
 .container-fluid{
-  width: 70% !important;
+  width: 78% !important;
 }
+
 
 h1 {
   padding: 20px;
@@ -24,6 +25,15 @@ form {
 }
 input {
   width: 70%;
+  padding: 12px 20px;
+  margin-bottom: 10px !important;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+textarea{
+  width: 70%;
+  height: 200px;
   padding: 12px 20px;
   margin-bottom: 10px !important;
   border: 1px solid #ccc;
@@ -43,6 +53,10 @@ input [type="submit"]{
   width: 100%;
   height: fit-content;
   margin-bottom: 20px;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+}
+.card-img-top{
+  height: 400px;
 }
 
 .toast-header {
@@ -51,4 +65,10 @@ input [type="submit"]{
 }
 .nav-link:hover{
   color: white !important;
+}
+footer{
+  margin-top: 100px;
+  height: fit-content;
+  background-color: #0d6efd;
+  text-align: center;
 }

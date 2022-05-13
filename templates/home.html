@@ -1,39 +1,65 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
-<h1>TOP 3 USERS</h1>
-<div class="card" style="width: 18rem">
-  <img src="..." class="card-img-top" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+<h1>Posts</h1>
+<br>
+
+  
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for post in posts %}
+    <div class="col">
+      <div class="card h-100">
+        <img src="/static/images/{{ post.image }}" class="card-img-top" alt="{{ post.title }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="card-text">{{ post.content[0:51] }}</div>
+            <a href="" type="button" class="btn btn-warning">Read more</a>
+            {% if current_user.isAdmin == True %}
+            <a href="" type="button" class="btn btn-warning">Edit</a>
+            <a href="" type="button" class="btn btn-danger">Delete</a>
+            {% endif %}
+        <div class="card-footer">
+          <small class="text-muted">{{ post.date_posted.strftime("%b %d, %Y") }}</small>
+        </div>
+      </div>
+      
+    </div>
+
+    {% endfor %}
   </div>
-</div>
-<div class="card" style="width: 18rem">
-  <img src="..." class="card-img-top" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
-<div class="card" style="width: 18rem">
-  <img src="..." class="card-img-top" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
+  <table class="table">
+    <thead>
+      
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Content</th>
+        <th scope="col">Image</th>
+        <th scope="col">Date</th>
+        {% if current_user.isAdmin == True %}
+        <th scope="col">Tools</th>
+        {% endif %}
+      </tr>
+    </thead>
+    
+    <tbody>
+      {% for post in posts %}
+      <tr>
+        <th scope="row">{{ post.id }}</td>
+        <td>{{ post.title}}</td>
+        <td>{{ post.content}}</td>
+        <td>{{ post.image }}</td>
+        <td>{{ post.date_posted.strftime("%b %d, %Y") }}</td>
+        <td><a href="" type="button" class="btn btn-warning">More</a></td>
+        {% if current_user.isAdmin == True %}
+        <td><a href="" type="button" class="btn btn-warning">Edit</a></td>
+        <td><a href="" type="button" class="btn btn-danger">Delete</a></td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+    
+  </table>
+
 
 {% with messages = get_flashed_messages() %} {% if messages %}{% for message in
 messages %}

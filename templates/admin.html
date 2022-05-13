@@ -4,12 +4,12 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">ID</th>
+      <th scope="col">User ID</th>
       <th scope="col">Name</th>
       <th scope="col">Surname</th>
       <th scope="col">E-mail</th>
       <th scope="col">Login count</th>
-      <th scope="col">Narzędzia</th>
+      <th scope="col">Tools</th>
     </tr>
   </thead>
   
@@ -26,7 +26,30 @@
     </tr>
     {% endfor %}
   </tbody>
-  
 </table>
+
+<div class="row row-cols-4">
+  {% for user in users %}
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title"><b>User ID: </b>{{ user.id }}</h5>
+        <p class="card-text">
+          <p><b>Name: </b>{{ user.name }}</p>
+          <p><b>Surname: </b>{{ user.last_name }}</p>
+          <p><b>Email: </b>{{ user.email }}</p>
+          <p><b>Login count: </b>{{ user.login_count }}</p>
+        </div>
+          <a href="/admin/{{user.id}}/update" type="button" class="btn btn-warning">Edit</a>
+          <a href="/admin/{{user.id}}/delete" type="button" class="btn btn-danger">Delete</a>
+      <div class="card-footer">
+        <small class="text-muted"></small>
+      </div>
+    </div>
+    
+  </div>
+
+  {% endfor %}
+</div>
 
 {% endblock %}
