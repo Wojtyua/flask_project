@@ -93,7 +93,7 @@ class PostForm(FlaskForm):
 
 
 
-    submit = SubmitField("Register")
+    submit = SubmitField("Add post")
 
 
 @app.route('/home', methods=['GET', 'POST'])

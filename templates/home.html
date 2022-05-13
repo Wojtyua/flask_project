@@ -11,7 +11,13 @@
         <img src="/static/images/{{ post.image }}" class="card-img-top" alt="{{ post.title }}">
         <div class="card-body">
           <h5 class="card-title">{{ post.title }}</h5>
-          <p class="card-text">{{ post.content[0:51] }}</div>
+          <p class="card-text">
+            {% if post.content|length >20 %}
+            {{ post.content[:40] + "..."}}
+            {% else %}
+            {{ post.content}}
+            {% endif %}
+          </div>
             <a href="" type="button" class="btn btn-warning">Read more</a>
             {% if current_user.isAdmin == True %}
             <a href="" type="button" class="btn btn-warning">Edit</a>
@@ -46,8 +52,18 @@
       <tr>
         <th scope="row">{{ post.id }}</td>
         <td>{{ post.title}}</td>
-        <td>{{ post.content}}</td>
-        <td>{{ post.image }}</td>
+        <td>
+          {% if post.content|length >20 %}
+          {{ post.content[:20] + "..."}}
+          {% else %}
+          {{ post.content}}
+          {% endif %}
+        </td>
+        <td>{% if post.image|length >20 %}
+          {{ post.image[:20] + "..."}}
+          {% else %}
+          {{ post.image}}
+          {% endif %}</td>
         <td>{{ post.date_posted.strftime("%b %d, %Y") }}</td>
         <td><a href="" type="button" class="btn btn-warning">More</a></td>
         {% if current_user.isAdmin == True %}

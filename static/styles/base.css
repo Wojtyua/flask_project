@@ -59,6 +59,10 @@ input [type="submit"]{
   height: 400px;
 }
 
+.col{
+  margin-bottom: 20px;
+}
+
 .toast-header {
   background-color: #0d6efd !important;
   color: white !important;
