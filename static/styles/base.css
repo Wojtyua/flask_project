@@ -7,6 +7,7 @@ a {
   text-decoration: none;
 }
 .container {
+  overflow: hidden;
   margin-top: 30px;
   padding-top: 50px;
   display: grid;
@@ -17,10 +18,40 @@ a {
 }
 
 h1 {
-  padding: 20px;
+  padding: 10px;
 }
 form {
   width: 70%;
+}
+.form-switch{
+  width: 100%;
+  padding: 0 !important;
+}
+
+.switch{
+  padding: 0;
+  float: left;
+  width: 32px;
+  height: 32px;
+  border: none;
+  color: transparent;
+  background-color: transparent;
+  background-image: url(/static/images/table.png);
+  background-repeat: no-repeat;
+  background-size: 32px, 32px;
+  margin-bottom: 20px !important;
+}
+.switch2{
+  float: left;
+  width: 32px;
+  height: 32px;
+  border: none;
+  color: transparent;
+  background-color: transparent;
+  background-image: url(/static/images/grid.png);
+  background-repeat: no-repeat;
+  background-size: 32px, 32px;
+  margin-bottom: 20px !important;
 }
 input {
   width: 70%;
@@ -76,10 +107,6 @@ footer {
   background-color: #0d6efd;
   text-align: center;
 }
-.selectView {
-  display: flex;
-}
-
 select {
   width: 70%;
   padding: 12px 20px;
@@ -87,4 +114,5 @@ select {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  background-color: white;
 }

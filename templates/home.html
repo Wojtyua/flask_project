@@ -1,17 +1,24 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
-  <div class="selectView">
-    <form method="post">
-  {{form.csrf_token}}
-  {{form.view}}
-  <input type="submit" class="submitView" value="set view">
-</form>
-  </div>
-
 <h1>Posts</h1>
 <br>
-  {% if view == 'GRID'%}
-  <div class="row row-cols-1 row-cols-md-3 g-4">
+{% if view == 'grid' %}
+<form class="form-switch" method="POST">   
+
+    <input class="switch" type="submit" src="/static/images/table.png" value="table" name="view">
+
+</form>
+{% endif %}
+
+{% if view == 'table' %}
+<form class="form-switch" method="POST">  
+
+    <input class="switch2" type="submit" src="/static/images/grid.png" value="grid" name="view">
+
+</form>
+{% endif %}
+  {% if view == 'grid' %}
+  <div class="row row-cols-1 row-cols-md-3 g-4" >
     {% for post in posts %}
     <div class="col">
       <div class="card h-100">
@@ -39,7 +46,7 @@
 
     {% endfor %}
   </div>
-  {% elif view == 'TABLE'%}
+  {% elif view == 'table' %}
   <table class="table">
     <thead>
       

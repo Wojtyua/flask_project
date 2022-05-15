@@ -94,17 +94,16 @@ class PostForm(FlaskForm):
     submit = SubmitField("Add post")
 
 
-class ViewForm(FlaskForm):
-    view = SelectField('view', choices=[('GRID', 'Grid'), ('TABLE', 'Table')],)
-
-
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    form = ViewForm(view="GRID") #GRID as default value
-    view = form.view.data
+    view = 'grid'
+    if request.method == 'POST':
+        if request.form['view'] == 'table':
+            view = 'table'
+        elif request.form['view'] == 'grid':
+            view = 'grid'
     all_posts = db.session.query(Posts).order_by(Posts.date_posted.desc())
-    return render_template('home.html', form=form, posts=all_posts, view=view)
-
+    return render_template('home.html', posts=all_posts, view = view)
 
 
 @app.route('/login', methods=['GET','POST'])
@@ -226,9 +225,15 @@ def register():
 @app.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin():
+    view = 'table'
     if(current_user.isAdmin == True):
         all_users = User.query.all()
-        return render_template('admin.html', users = all_users)
+        if request.method == 'POST':
+            if request.form['view'] == 'table':
+                view = 'table'
+            elif request.form['view'] == 'grid':
+                view = 'grid'
+        return render_template('admin.html', users = all_users, view = view)
     else:
         return redirect(url_for('home'))
 

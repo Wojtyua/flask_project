@@ -1,6 +1,24 @@
 {% extends "base.html" %} {% block title %}Admin{% endblock %} {% block content
 %}
+<h1>Admin menu</h1>
+<br>
+{% if view == 'grid' %}
+<form class="form-switch" method="POST">   
 
+    <input class="switch" type="submit" src="/static/images/table.png" value="table" name="view">
+
+</form>
+{% endif %}
+
+{% if view == 'table' %}
+<form class="form-switch" method="POST">  
+
+    <input class="switch2" type="submit" src="/static/images/grid.png" value="grid" name="view">
+
+</form>
+{% endif %}
+
+{% if view == 'table' %}
 <table class="table">
   <thead>
     <tr>
@@ -27,7 +45,9 @@
     {% endfor %}
   </tbody>
 </table>
+{% endif %}
 
+{% if view == 'grid' %}
 <div class="row row-cols-4">
   {% for user in users %}
   <div class="col">
@@ -48,8 +68,10 @@
     </div>
     
   </div>
+  
 
   {% endfor %}
+  {% endif %}
 </div>
 
 {% endblock %}
