@@ -1,9 +1,16 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
+  <div class="selectView">
+    <form method="post">
+  {{form.csrf_token}}
+  {{form.view}}
+  <input type="submit" class="submitView" value="set view">
+</form>
+  </div>
+
 <h1>Posts</h1>
 <br>
-
-  
+  {% if view == 'GRID'%}
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for post in posts %}
     <div class="col">
@@ -32,6 +39,7 @@
 
     {% endfor %}
   </div>
+  {% elif view == 'TABLE'%}
   <table class="table">
     <thead>
       
@@ -75,6 +83,7 @@
     </tbody>
     
   </table>
+  {% endif %}
 
 
 {% with messages = get_flashed_messages() %} {% if messages %}{% for message in

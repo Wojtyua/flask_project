@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 from wtforms.widgets import TextArea
@@ -90,16 +90,19 @@ class PostForm(FlaskForm):
     category = StringField(validators=[InputRequired(), Length(min = 4, max=20)], render_kw={"placeholder": "Category"})
     image = FileField('post_image')
 
-
-
-
     submit = SubmitField("Add post")
+
+
+class ViewForm(FlaskForm):
+    view = SelectField('view', choices=[('GRID', 'Grid'), ('TABLE', 'Table')],)
 
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
+    form = ViewForm(view="GRID") #GRID as default value
+    view = form.view.data
     all_posts = Posts.query.all()
-    return render_template('home.html', posts=all_posts)
+    return render_template('home.html', form=form, posts=all_posts, view=view)
 
 
 
