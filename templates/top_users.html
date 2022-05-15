@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}Top users{% endblock %} {% block content
-%}
+{% extends "base.html" %} {% block title %}Top users{% endblock %} {% block
+content %}
 <h1>Top 3 users</h1>
 <table class="table">
   <thead>
@@ -11,11 +11,11 @@
       <th scope="col">Login count</th>
     </tr>
   </thead>
-  
+
   <tbody>
-    {% for user in users %}
+    {% set x = namespace(value=1) %} {% for user in users %}
     <tr>
-      <th scope="row">{{user.id}}</th>
+      <th scope="row">{{x.value}} {% set x.value = x.value + 1 %}</th>
       <td>{{ user.name }}</td>
       <td>{{ user.last_name }}</td>
       <td>{{ user.email }}</td>

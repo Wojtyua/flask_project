@@ -87,7 +87,8 @@ class PostForm(FlaskForm):
     title = StringField(validators=[InputRequired(), Length(min = 4, max=20)], render_kw={"placeholder": "Title"})
     author = StringField(validators=[InputRequired(), Length(min = 4, max=20)], render_kw={"placeholder": "Author"})
     content = StringField(validators=[InputRequired()], widget=TextArea(), render_kw={"placeholder": "Content"})
-    category = StringField(validators=[InputRequired(), Length(min = 4, max=20)], render_kw={"placeholder": "Category"})
+    category = SelectField('category', choices=[('Sport', 'Sport'), ('Polityka', 'Polityka'), ('Zwierzęta', 'Zwierzęta'), ('News', 'News'), ('Memes', 'Polityka')], validators=[InputRequired()])
+
     image = FileField('post_image')
 
     submit = SubmitField("Add post")
@@ -101,7 +102,7 @@ class ViewForm(FlaskForm):
 def home():
     form = ViewForm(view="GRID") #GRID as default value
     view = form.view.data
-    all_posts = Posts.query.all()
+    all_posts = db.session.query(Posts).order_by(Posts.date_posted.desc())
     return render_template('home.html', form=form, posts=all_posts, view=view)
 
 
@@ -160,11 +161,7 @@ def add_post():
         db.session.commit()
         saver.save(os.path.join(app.config['UPLOAD_FOLDER'], image_name))
 
-        form.title.data = '' 
-        form.author.data = ''
-        form.content.data = ''
-        form.category.data = ''
-        form.image.data = ''
+        return redirect(url_for('home'))
 
         
     return render_template('add_post.html', form = form)
