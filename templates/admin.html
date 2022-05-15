@@ -59,9 +59,11 @@
           <p><b>Surname: </b>{{ user.last_name }}</p>
           <p><b>Email: </b>{{ user.email }}</p>
           <p><b>Login count: </b>{{ user.login_count }}</p>
+          <div class="card-buttons">
+            <a href="/update/{{user.id}}" type="button" class="btn btn-warning">Edit</a>
+            <a href="/delete/{{user.id}}" type="button" class="btn btn-danger">Delete</a>
+            </div>
         </div>
-          <a href="/admin/{{user.id}}/update" type="button" class="btn btn-warning">Edit</a>
-          <a href="/delete/{{user.id}}" type="button" class="btn btn-danger">Delete</a>
       <div class="card-footer">
         <small class="text-muted"></small>
       </div>

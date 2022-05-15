@@ -85,6 +85,9 @@ input [type="submit"] {
   box-sizing: border-box;
 }
 
+.row{
+  width: 100%;
+}
 .card {
   width: 100%;
   height: fit-content;
@@ -92,7 +95,10 @@ input [type="submit"] {
   box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
 }
 .card-img-top {
-  height: 400px;
+  height: 100%;
+}
+.card-buttons {
+  width: 100%;
 }
 
 .col {
