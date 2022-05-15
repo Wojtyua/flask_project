@@ -195,11 +195,13 @@ def profileupdate(id):
     else:
         return render_template("update.html", form=form, user = user)
 
+
+#delete user by user owner or admin
 @app.route('/profile/delete/<int:id>', methods = ['GET','POST'])
 @login_required
-def profiledelete(id):
+def deleteUserById(id):
     user = User.query.filter_by(id=id).first() 
-    if current_user.id != user.id:
+    if current_user.id != user.id or current_user.isAdmin != True:
         return redirect("/home")
     if user: 
         db.session.delete(user)
@@ -207,6 +209,19 @@ def profiledelete(id):
         return redirect('/home')
     else:
         abort(404)
+
+
+@app.route('/post/delete/<int:id>', methods = ['GET','POST'])
+@login_required
+def deletePostById(id):
+    post = Posts.query.filter_by(id=id).first() 
+    if current_user.isAdmin != True:
+        return redirect("/home")
+    else: 
+        db.session.delete(post)
+        db.session.commit()
+        return redirect('/home')
+     
 
 @ app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -220,6 +235,7 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('register.html', form=form)
+
 
 
 @app.route('/admin', methods=['GET', 'POST'])
