@@ -141,9 +141,6 @@ def add_post():
     if form.validate_on_submit():
     
         image = form.image.data
-        
-
-
         image_filename = secure_filename(image.filename)
         image_name = str(uuid.uuid1()) + "_" + image_filename 
 
@@ -169,46 +166,9 @@ def add_post():
 @login_required
 def profile():
     user = current_user
-    return render_template('profile.html')
-
-@app.route('/profile/update/<int:id>', methods=['GET', 'POST'])
-@login_required
-def profileupdate(id):
-
-    user = User.query.filter_by(id=id).first() 
-    if current_user.id != user.id:
-        return redirect("/home")
-
-    form = UserForm()
-    if request.method == "POST":
-        user.email = request.form['email']
-        user.name = request.form['name']
-        user.last_name = request.form['last_name']
-        if(len(request.form['password']) != 0):
-            hashed_password = bcrypt.generate_password_hash(request.form['password'])
-            user.password = hashed_password  
-        try:
-            db.session.commit()
-            return redirect('/profile')
-        except:
-            return render_template("update.html", form=form, user = user)
-    else:
-        return render_template("update.html", form=form, user = user)
+    return render_template('profile.html', user=user)
 
 
-#delete user by user owner or admin
-@app.route('/profile/delete/<int:id>', methods = ['GET','POST'])
-@login_required
-def deleteUserById(id):
-    user = User.query.filter_by(id=id).first() 
-    if current_user.id != user.id or current_user.isAdmin != True:
-        return redirect("/home")
-    if user: 
-        db.session.delete(user)
-        db.session.commit()
-        return redirect('/home')
-    else:
-        abort(404)
 
 
 @app.route('/post/delete/<int:id>', methods = ['GET','POST'])
@@ -237,7 +197,7 @@ def register():
     return render_template('register.html', form=form)
 
 
-
+#admin page only if logged as admin
 @app.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin():
@@ -253,42 +213,72 @@ def admin():
     else:
         return redirect(url_for('home'))
 
-@app.route('/admin/<int:id>/update', methods=['GET', 'POST'])
+
+
+#delete if admin or user owner
+@app.route('/delete/<int:id>', methods = ['GET','POST'])
 @login_required
-def adminUpdate(id):
+def deleteById(id):
+    user = User.query.filter_by(id=id).first()
     if(current_user.isAdmin == True):
-        user = User.query.filter_by(id=id).first()
-        form = UserForm()
-
-        if request.method == "POST":
-            user.email = request.form['email']
-            user.name = request.form['name']
-            user.last_name = request.form['last_name']
-            if(len(request.form['password']) != 0):
-                hashed_password = bcrypt.generate_password_hash(request.form['password'])
-                user.password = hashed_password
-                
-            try:
-                db.session.commit()
-                return redirect('/admin')
-            except:
-                return render_template("update.html", form=form, user = user)
-        else:
-            return render_template("update.html", form=form, user = user)
-
-
-@app.route('/admin/<int:id>/delete', methods = ['GET','POST'])
-@login_required
-def delete(id):
-    if(current_user.isAdmin == True):
-        user = User.query.filter_by(id=id).first()
         if user: 
             db.session.delete(user)
             db.session.commit()
             return redirect('/admin')
         else:
-            abort(404)
+            return 'bad request!', 400
+    elif (current_user.id == user.id):
+        if user: 
+            db.session.delete(user)
+            db.session.commit()
+            return redirect('/home')
+        else:
+            return 'bad request!', 400
 
+
+#update profile if admin or user
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+@login_required
+def updateProfileById(id):
+    user = User.query.filter_by(id=id).first() 
+    form = UserForm()
+    if user:
+        if current_user.id == user.id:    
+            if request.method == "POST":
+                user.email = request.form['email']
+                user.name = request.form['name']
+                user.last_name = request.form['last_name']
+                if(len(request.form['password']) != 0):
+                    hashed_password = bcrypt.generate_password_hash(request.form['password'])
+                    user.password = hashed_password  
+                try:
+                    db.session.commit()
+                    return redirect('/profile')
+                except:
+                    return render_template("update.html", form=form, user = user)
+            else:
+                return render_template("update.html", form=form, user = user)
+        elif current_user.isAdmin == True:
+            if request.method == "POST":
+                user.email = request.form['email']
+                user.name = request.form['name']
+                user.last_name = request.form['last_name']
+                if(len(request.form['password']) != 0):
+                    hashed_password = bcrypt.generate_password_hash(request.form['password'])
+                    user.password = hashed_password  
+                try:
+                    db.session.commit()
+                    return redirect('/admin')
+                except:
+                    return render_template("update.html", form=form, user = user)
+            else:
+                return render_template("update.html", form=form, user = user)
+        else:
+            return 'bad request!', 400
+    return redirect('/home')
+
+
+#top users page
 @app.route('/top_users', methods=['GET', 'POST'])
 def topUsers():
     #return all users by login count 

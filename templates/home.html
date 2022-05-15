@@ -36,10 +36,12 @@
             {% if current_user.isAdmin == True %}
             <a href="" type="button" class="btn btn-warning">Edit</a>
             <a href="/post/delete/{{post.id}}" type="button" class="btn btn-danger">Delete</a>
+            {% endif %}
           </div>
+          
           </div>
             
-            {% endif %}
+           
         <div class="card-footer">
           <small class="text-muted">{{ post.date_posted.strftime("%b %d, %Y") }}</small>
         </div>

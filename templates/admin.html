@@ -39,8 +39,8 @@
       <td>{{ user.last_name }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.login_count }}</td>
-      <td><a href="/admin/{{user.id}}/update" type="button" class="btn btn-warning">Edit</a></td>
-      <td><a href="/admin/{{user.id}}/delete" type="button" class="btn btn-danger">Delete</a></td>
+      <td><a href="/update/{{user.id}}" type="button" class="btn btn-warning">Edit</a></td>
+      <td><a href="/delete/{{user.id}}" type="button" class="btn btn-danger">Delete</a></td>
     </tr>
     {% endfor %}
   </tbody>
@@ -61,7 +61,7 @@
           <p><b>Login count: </b>{{ user.login_count }}</p>
         </div>
           <a href="/admin/{{user.id}}/update" type="button" class="btn btn-warning">Edit</a>
-          <a href="/admin/{{user.id}}/delete" type="button" class="btn btn-danger">Delete</a>
+          <a href="/delete/{{user.id}}" type="button" class="btn btn-danger">Delete</a>
       <div class="card-footer">
         <small class="text-muted"></small>
       </div>
