@@ -91,7 +91,7 @@ class PostForm(FlaskForm):
 
     image = FileField('post_image')
 
-    submit = SubmitField("Add post")
+    submit = SubmitField("Submit")
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -161,12 +161,12 @@ def add_post():
 
     return render_template('add_post.html', form = form)
 
+
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
     user = current_user
     return render_template('profile.html', user=user)
-
 
 
 
@@ -182,9 +182,49 @@ def deletePostById(id):
         db.session.delete(post)
         db.session.commit()
         return redirect('/')
-     
 
-@ app.route('/register', methods=['GET', 'POST'])
+
+@app.route('/post/<int:id>', methods = ['GET','POST'])
+def post(id):
+    post = post = Posts.query.filter_by(id=id).first()
+    user = current_user
+    return render_template('post.html', post = post, user = user)
+
+
+@app.route('/post/edit/<int:id>', methods = ['GET','POST'])
+@login_required
+def editPostById(id):
+    if current_user.isAdmin != True:
+        redirect('/')
+
+    post = post = Posts.query.filter_by(id=id).first()
+    form = PostForm()
+    if form.validate_on_submit():
+    
+        image = form.image.data
+        image_filename = secure_filename(image.filename)
+        image_name = str(uuid.uuid1()) + "_" + image_filename 
+
+        #saving img to UPLOAD_FOLDER
+
+        saver = form.image.data
+   
+        #change to string to save to db
+        image = image_name
+
+        edited_post = Posts(title = form.title.data, author = form.author.data, content = form.content.data, category = form.category.data, image = image)
+        if(len(request.form['password']) != 0):
+                    hashed_password = bcrypt.generate_password_hash(request.form['password'])
+                    user.password = hashed_password  
+        db.session.add(edited_post)
+        db.session.commit()
+        saver.save(os.path.join(app.config['UPLOAD_FOLDER'], image_name))
+
+        return redirect('/')
+    return render_template('edit_post.html', post=post, form=form)
+
+
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
 

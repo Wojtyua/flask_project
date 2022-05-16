@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block title %}profile{% endblock %} {% block
+content %}
+<div class="card mb-3">
+  <img src="/static/images/{{ post.image }}" class="card-img-top" alt="..." />
+  <div class="card-body">
+    <p class="card-text"><b>Id:</b> {{post.id}}</p>
+    <p class="card-text"><b>Name:</b> {{ post.title }}</p>
+    <p class="card-text"><b>Author:</b> {{ post.author }}</p>
+    <p class="card-text"><b>Category:</b> {{ post.category }}</p>
+    <p class="card-text"><b>Content:</b> {{ post.content }}</p>
+    <p class="card-text"><b>Date:</b> {{ post.date_posted }}</p>
+    {% if current_user.isAdmin == true %}
+    <a href="/update/{{user.id}}" class="btn btn-secondary btn-sm">Edit post</a>
+    <a href="/delete/{{user.id}}" class="btn btn btn-danger btn-sm"
+      >Delete post</a
+    >
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

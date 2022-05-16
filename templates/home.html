@@ -33,7 +33,7 @@
             {{ post.content}}
             {% endif %}
             <div class="card-buttons">
-            <a href="" type="button" class="btn btn-warning">More</a>
+            <a href="/post/{{post.id}}" type="button" class="btn btn-warning">More</a>
             {% if current_user.isAdmin == True %}
             <a href="" type="button" class="btn btn-warning">Edit</a>
             <a href="/post/delete/{{post.id}}" type="button" class="btn btn-danger">Delete</a>
@@ -86,7 +86,7 @@
           {{ post.image}}
           {% endif %}</td>
         <td>{{ post.date_posted.strftime("%b %d, %Y") }}</td>
-        <td><a href="" type="button" class="btn btn-warning">More</a></td>
+        <td><a href="/post/{{post.id}}" type="button" class="btn btn-warning">More</a></td>
         {% if current_user.isAdmin == True %}
         <td><a href="" type="button" class="btn btn-warning">Edit</a></td>
         <td><a href="" type="button" class="btn btn-danger">Delete</a></td>

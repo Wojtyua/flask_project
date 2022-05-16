@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block title %}Adding post{% endblock %} {% block
+content %}
+<h1>Add post</h1>
+
+<form method="POST" enctype="multipart/form-data">
+  <center>
+    {{form.csrf_token}} {{ form.title(value=post.title) }} {{ form.author(value
+    = post.author) }} {{ form.content(placeholder=post.content) }} {{
+    form.category(value=post.category) }} {{ form.image(value=post.image) }} {{
+    form.submit }}
+  </center>
+</form>
+
+{% endblock %}
