@@ -178,8 +178,8 @@ def deletePostById(id):
     if current_user.isAdmin != True:
         return redirect("/home")
     else:
-        if os.path.isfile("/static/images/{post.image}") :
-            os.remove("/static/images/{post.image}")   
+        if os.path.exists(f"static/images/{post.image}"):
+            os.remove(f"static/images/{post.image}")   
         db.session.delete(post)
         db.session.commit()
         return redirect('/home')
