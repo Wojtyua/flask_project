@@ -86,7 +86,7 @@ class PostForm(FlaskForm):
 
     title = StringField(validators=[InputRequired(), Length(min = 4, max=20)], render_kw={"placeholder": "Title"})
     author = StringField(validators=[InputRequired(), Length(min = 4, max=20)], render_kw={"placeholder": "Author"})
-    content = StringField(validators=[InputRequired()], widget=TextArea(), render_kw={"placeholder": "Content"})
+    content = StringField(widget=TextArea(), render_kw={"placeholder": "Content"})
     category = SelectField('category', choices=[('Sport', 'Sport'), ('Polityka', 'Polityka'), ('Zwierzęta', 'Zwierzęta'), ('News', 'News'), ('Memes', 'Polityka')], validators=[InputRequired()])
 
     image = FileField('post_image')
@@ -197,7 +197,7 @@ def editPostById(id):
     if current_user.isAdmin != True:
         redirect('/')
 
-    post = post = Posts.query.filter_by(id=id).first()
+    post = Posts.query.filter_by(id=id).first()
     form = PostForm()
     if form.validate_on_submit():
     
@@ -206,17 +206,25 @@ def editPostById(id):
         image_name = str(uuid.uuid1()) + "_" + image_filename 
 
         #saving img to UPLOAD_FOLDER
-
         saver = form.image.data
-   
         #change to string to save to db
         image = image_name
+        #if content = 0 set old content
+        if(len(request.form['content']) == 0):
+            form.content.data = post.content
+        else:
+            form.content.data = request.form['content']
 
-        edited_post = Posts(title = form.title.data, author = form.author.data, content = form.content.data, category = form.category.data, image = image)
-        if(len(request.form['password']) != 0):
-                    hashed_password = bcrypt.generate_password_hash(request.form['password'])
-                    user.password = hashed_password  
-        db.session.add(edited_post)
+        #Usuwanie starego zdjęcia
+
+        if os.path.exists(f"static/images/{post.image}"):
+            os.remove(f"static/images/{post.image}")  
+            
+        post.title = form.title.data
+        post.author = form.author.data
+        post.content = form.content.data
+        post.category = form.category.data
+        post.image = image
         db.session.commit()
         saver.save(os.path.join(app.config['UPLOAD_FOLDER'], image_name))
 
