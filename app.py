@@ -94,7 +94,7 @@ class PostForm(FlaskForm):
     submit = SubmitField("Add post")
 
 
-@app.route('/home', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def home():
     view = 'grid'
     if request.method == 'POST':
@@ -119,7 +119,7 @@ def login():
                               
                 login_user(user)
                 flash(f"You have been logged in as {current_user.name}")
-                return redirect(url_for('home'))
+                return redirect('/')
 
     return render_template('login.html', form=form)
 
@@ -130,7 +130,7 @@ def login():
 def logout():
     logout_user()
     flash("You have been logged out")
-    return redirect(url_for('home'))
+    return redirect('/')
 
 
 @app.route('/add_post', methods=['GET', 'POST'])
@@ -157,9 +157,8 @@ def add_post():
         db.session.commit()
         saver.save(os.path.join(app.config['UPLOAD_FOLDER'], image_name))
 
-        return redirect(url_for('home'))
+        return redirect('/')
 
-        
     return render_template('add_post.html', form = form)
 
 @app.route('/profile', methods=['GET', 'POST'])
@@ -176,13 +175,13 @@ def profile():
 def deletePostById(id):
     post = Posts.query.filter_by(id=id).first() 
     if current_user.isAdmin != True:
-        return redirect("/home")
+        return redirect('/')
     else:
         if os.path.exists(f"static/images/{post.image}"):
             os.remove(f"static/images/{post.image}")   
         db.session.delete(post)
         db.session.commit()
-        return redirect('/home')
+        return redirect('/')
      
 
 @ app.route('/register', methods=['GET', 'POST'])
@@ -213,7 +212,7 @@ def admin():
                 view = 'grid'
         return render_template('admin.html', users = all_users, view = view)
     else:
-        return redirect(url_for('home'))
+        return redirect('/')
 
 
 
@@ -233,7 +232,7 @@ def deleteById(id):
         if user: 
             db.session.delete(user)
             db.session.commit()
-            return redirect('/home')
+            return redirect('/')
         else:
             return 'bad request!', 400
 
@@ -277,7 +276,7 @@ def updateProfileById(id):
                 return render_template("update.html", form=form, user = user)
         else:
             return 'bad request!', 400
-    return redirect('/home')
+    return redirect('/')
 
 
 #top users page

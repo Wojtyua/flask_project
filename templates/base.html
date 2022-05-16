@@ -30,7 +30,6 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" href="{{url_for('home')}}">Flask Project</a>
@@ -48,12 +47,6 @@
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link"
-                aria-current="page"
-                href="{{url_for('home')}}"
-                >Home</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" href="{{url_for('topUsers')}}">Top users</a>
             </li>
             {% if current_user.is_authenticated %}
@@ -67,50 +60,43 @@
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('admin')}}">Admin menu</a>
             </li>
-            {% endif %}
-            {% endif %}
+            {% endif %} {% endif %} {% if not current_user.is_authenticated %}
 
-            {% if not current_user.is_authenticated %}
-            
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('register')}}">Sign up</a>
             </li>
             {% endif %}
           </ul>
 
-          {% if current_user.is_authenticated %} 
-          <span class="navbar-text">
-            Logged as {{current_user.name }} 
-            </span>
-            <span class="navbar-item">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <a
-                    class="nav-link active"
-                    aria-current="page"
-                    href="{{url_for('logout')}}"
-                    >Log out</a
-                  >
-                </li>
-              </ul>
-            </span> 
-            {% else %}
-            <span class="navbar-text">
-              not logged in 
-              </span>
-              <span class="navbar-item">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a
-                      class="nav-link active"
-                      aria-current="page"
-                      href="{{url_for('login')}}"
-                      >Login</a
-                    >
-                  </li>
-                </ul>
-              </span> 
-            {% endif %}
+          {% if current_user.is_authenticated %}
+          <span class="navbar-text"> Logged as {{current_user.name }} </span>
+          <span class="navbar-item">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="{{url_for('logout')}}"
+                  >Log out</a
+                >
+              </li>
+            </ul>
+          </span>
+          {% else %}
+          <span class="navbar-text"> not logged in </span>
+          <span class="navbar-item">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="{{url_for('login')}}"
+                  >Login</a
+                >
+              </li>
+            </ul>
+          </span>
+          {% endif %}
         </div>
       </div>
     </nav>
