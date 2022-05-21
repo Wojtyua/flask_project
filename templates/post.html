@@ -10,8 +10,10 @@ content %}
     <p class="card-text"><b>Content:</b> {{ post.content }}</p>
     <p class="card-text"><b>Date:</b> {{ post.date_posted }}</p>
     {% if current_user.isAdmin == true %}
-    <a href="/post/edit/{{post.id}}" class="btn btn-secondary btn-sm">Edit post</a>
-    <a href="/delete/{{post.id}}" class="btn btn btn-danger btn-sm"
+    <a href="/post/edit/{{post.id}}" class="btn btn-secondary btn-sm"
+      >Edit post</a
+    >
+    <a href="/post/delete/{{post.id}}" class="btn btn btn-danger btn-sm"
       >Delete post</a
     >
     {% endif %}
